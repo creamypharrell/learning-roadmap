@@ -9,16 +9,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { overflow-x: hidden; }
-    body { max-width: 100%; }
+    html, body { overflow-x: hidden; width: 100%; }
     body { font-family: Calibri, sans-serif; background: #F8FAFC; }
     a:hover { opacity: 0.8; }
     button { font-family: Calibri, sans-serif; }
     button:hover { filter: brightness(0.95); }
 
     /* ── Header ── */
-    .app-header   { padding: 28px 32px 24px; transition: background 0.2s ease; }
-    .header-inner { max-width: 960px; margin: 0 auto; }
+    .app-header   { width: 100%; padding: 28px 32px 24px; transition: background 0.2s ease; }
+    .header-inner { width: 100%; max-width: 960px; margin: 0 auto; }
     .header-top   { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
     .site-title   { font-size: 26px; margin: 0; font-weight: 700; letter-spacing: -0.02em; }
     .dark-btn     { flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 8px 16px; min-height: 44px; border-radius: 8px; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); color: white; }
@@ -352,7 +351,7 @@
       const toggleComplete = (id) => setCompleted(prev => ({ ...prev, [id]: !prev[id] }));
 
       return (
-        <div style={{ minHeight: "100vh", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
+        <div style={{ minHeight: "100vh", width: "100%", overflowX: "hidden", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
 
           {/* ── Header ── */}
           <div className="app-header" style={{ background: t.header, color: "white" }}>
