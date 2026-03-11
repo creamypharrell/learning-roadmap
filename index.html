@@ -60,13 +60,13 @@
     .nav-btn  { flex: 1; min-height: 48px; padding: 13px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
 
     /* ── Sidebar layout switching ── */
-    .step-strip   { display: none; }   /* hidden on desktop */
-    .sidebar-list { display: block; }  /* visible on desktop */
+    .step-strip   { display: none; }
+    .sidebar-list { display: block; }
 
-    /* ── Mobile overrides (≤768px covers all iPhones incl. Pro Max) ── */
+    /* ── Mobile overrides ── */
     @media (max-width: 768px) {
-      .step-strip   { display: flex; }  /* show pill strip on mobile */
-      .sidebar-list { display: none; }  /* hide vertical list on mobile */
+      .step-strip   { display: flex; }
+      .sidebar-list { display: none; }
       .app-header  { padding: 16px; }
       .site-title  { font-size: 20px; }
       .body-grid   { grid-template-columns: 1fr; padding: 16px 12px; gap: 14px; }
@@ -156,7 +156,31 @@
         focus: "Making HTTP requests in Python, parsing JSON responses, handling errors gracefully."
       },
       {
-        id: 4, title: "Explore Claude & AI", duration: "Ongoing", hoursPerDay: 1,
+        id: 4, title: "Frontend Basics", duration: "2–3 weeks", hoursPerDay: 1,
+        color: "#FFFBEB", accent: "#F59E0B", icon: "🎨",
+        summary: "Learn just enough HTML and CSS to understand what Claude Code is doing when it builds or fixes your app — and to give it better instructions.",
+        firstWin: {
+          title: "This weekend: Build a styled personal page",
+          desc: "Create a simple HTML file with your name, a short bio, and some basic styling — change the font, colours, and layout. Open it in your browser. You'll immediately understand what HTML and CSS actually do."
+        },
+        checkpoint: "You can look at a CSS property like 'padding', 'display: flex', or 'border-radius' and explain in plain English what it does. When Claude Code changes something visual, you can read the code and understand why.",
+        resources: [
+          { name: "The Odin Project – Foundations", url: "https://www.theodinproject.com/paths/foundations/courses/foundations", type: "Free Course" },
+          { name: "MDN: Learn HTML", url: "https://developer.mozilla.org/en-US/docs/Learn/HTML", type: "Docs" },
+          { name: "MDN: Learn CSS", url: "https://developer.mozilla.org/en-US/docs/Learn/CSS", type: "Docs" },
+          { name: "Flexbox Froggy – Learn flexbox with a game", url: "https://flexboxfroggy.com/", type: "Tool" },
+          { name: "CSS Tricks – A Complete Guide to Flexbox", url: "https://css-tricks.com/snippets/css/a-guide-to-flexbox/", type: "Guide" },
+        ],
+        troubleshooting: [
+          "When something looks wrong, search 'MDN [property name]' — the docs are always accurate",
+          "Use browser DevTools (F12) to inspect any element and see exactly what CSS is applied to it",
+          "Flexbox controls layout direction and alignment — most layout bugs are flexbox issues",
+          "If Claude Code makes a visual change you don't understand, ask it: 'Explain what that CSS does in plain English'",
+        ],
+        focus: "HTML structure (elements, tags, nesting), CSS basics (colour, spacing, fonts), and flexbox layout. You don't need to master this — just enough to read and understand what Claude Code writes."
+      },
+      {
+        id: 5, title: "Explore Claude & AI", duration: "Ongoing", hoursPerDay: 1,
         color: "#FDF4FF", accent: "#A855F7", icon: "🤖",
         summary: "Once you're comfortable with basics, dive into Anthropic's own learning resources and start building AI-powered tools.",
         firstWin: {
@@ -180,7 +204,7 @@
         focus: "Prompt engineering, the Claude API, building simple AI-powered tools from scratch."
       },
       {
-        id: 5, title: "Work With Data", duration: "Parallel to Steps 3–4", hoursPerDay: 1,
+        id: 6, title: "Work With Data", duration: "Parallel to Steps 3–5", hoursPerDay: 1,
         color: "#FFF1F2", accent: "#F43F5E", icon: "📊",
         summary: "Learn to load, explore, filter and visualise real datasets using Python's most important data library.",
         firstWin: {
@@ -364,7 +388,7 @@
                 })}
               </div>
 
-              {/* Desktop: vertical list (hidden on mobile via grid collapse) */}
+              {/* Desktop: vertical list */}
               <div className="sidebar-list">
                 {steps.map((s, i) => {
                   const done = completed[s.id];
