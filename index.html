@@ -41,7 +41,7 @@
     .step-pill  { flex-shrink: 0; width: 110px; text-align: left; border: none; cursor: pointer; padding: 10px; border-radius: 10px; transition: all 0.2s ease; }
 
     /* ── Step hero card ── */
-    .step-hero   { border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; }
+    .step-hero   { border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; height: auto; overflow: visible; width: 100%; box-sizing: border-box; }
     .mark-btn    { width: 100%; padding: 13px; border-radius: 8px; border: none; cursor: pointer; font-size: 15px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: all 0.2s ease; margin-top: 14px; }
 
     /* ── Tabs ── */
@@ -397,14 +397,14 @@
 
               {/* Step hero */}
               <div className="step-hero" style={{ background: t.stepCardBg, borderLeft: `5px solid ${step.accent}`, boxShadow: `0 4px 20px ${step.accent}18` }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-                  <span style={{ fontSize: 26, flexShrink: 0 }}>{step.icon}</span>
-                  <div style={{ minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+                  <span style={{ fontSize: 26, flexShrink: 0, lineHeight: 1.2 }}>{step.icon}</span>
+                  <div style={{ minWidth: 0, flex: 1 }}>
                     <div style={{ fontSize: 11, color: step.accent, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}>Step {step.id} · {weeksForStep(step) ? `~${weeksForStep(step)} weeks` : step.duration}</div>
-                    <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em", color: t.text, lineHeight: 1.2 }}>{step.title}</h2>
+                    <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, letterSpacing: "-0.02em", color: t.text, lineHeight: 1.2, overflowWrap: "break-word", wordBreak: "break-word", minWidth: 0 }}>{step.title}</h2>
                   </div>
                 </div>
-                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: t.textMuted }}>{step.summary}</p>
+                <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: t.textMuted, overflowWrap: "break-word", wordBreak: "break-word" }}>{step.summary}</p>
                 <button className="mark-btn" onClick={() => toggleComplete(step.id)}
                   style={{ background: completed[step.id] ? "#22C55E" : t.card, color: completed[step.id] ? "white" : t.textMuted }}>
                   {completed[step.id] ? "✓ Completed" : "Mark complete"}
