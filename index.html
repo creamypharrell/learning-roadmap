@@ -61,14 +61,16 @@
     .nav-btn  { flex: 1; min-height: 48px; padding: 13px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
 
     /* ── Sidebar layout switching ── */
-    .step-strip   { display: none; }
-    .sidebar-list { display: block; }
+    .step-strip      { display: none; }
+    .sidebar-list    { display: block; }
+    .community-mobile { display: none; }
 
     /* ── Mobile overrides ── */
     @media (max-width: 768px) {
       .step-strip   { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
       .step-strip::-webkit-scrollbar { display: none; }
       .sidebar-list { display: none; }
+      .community-mobile { display: block; margin-top: 14px; }
       .app-header  { padding: 16px; }
       .site-title  { font-size: 20px; }
       .body-grid   { grid-template-columns: 1fr; padding: 16px 12px; gap: 14px; }
@@ -76,9 +78,26 @@
       .step-hero   { padding: 14px 16px; }
       .mark-btn    { font-size: 16px; padding: 15px; }
       .card        { padding: 14px 16px; }
-      .tab-btn     { font-size: 12px; padding: 10px 2px; }
+      .tab-btn     { font-size: 12px; padding: 10px 4px; }
       .nav-btn     { font-size: 15px; padding: 15px; min-height: 52px; }
       .dark-btn    { padding: 8px 12px; font-size: 13px; }
+      .resource-link { flex-direction: column; gap: 6px; }
+      .resource-link > div { justify-content: flex-start; }
+      .hours-row   { gap: 8px; padding: 10px 10px; }
+      .hours-label { font-size: 11px; }
+    }
+
+    /* ── Extra-small phones ── */
+    @media (max-width: 400px) {
+      .site-title  { font-size: 18px; }
+      .app-header  { padding: 12px; }
+      .body-grid   { padding: 12px 8px; gap: 10px; }
+      .tab-btn     { font-size: 11px; padding: 10px 2px; }
+      .step-hero h2 { font-size: 17px; }
+      .hours-row   { flex-wrap: wrap; }
+      .hours-label { flex: 1 1 100%; margin-bottom: 2px; }
+      .dark-btn    { padding: 8px 10px; font-size: 12px; }
+      .step-pill   { width: 100px; }
     }
   </style>
 </head>
@@ -535,6 +554,14 @@
                   style={{ border: "none", background: activeStep === steps.length - 1 ? (dk ? "#334155" : "#E5E7EB") : step.accent, color: activeStep === steps.length - 1 ? t.label : "white", cursor: activeStep === steps.length - 1 ? "not-allowed" : "pointer" }}>
                   Next →
                 </button>
+              </div>
+
+              {/* Community links — mobile only */}
+              <div className="community-mobile card" style={{ background: t.card, boxShadow: t.cardShadow }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 10 }}>Community</div>
+                {[{ name: "r/learnprogramming", url: "https://www.reddit.com/r/learnprogramming/" }, { name: "Stack Overflow", url: "https://stackoverflow.com/" }, { name: "Anthropic Discord", url: "https://discord.gg/anthropic" }, { name: "Indie Hackers", url: "https://www.indiehackers.com/" }].map(c => (
+                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: "block", fontSize: 12, color: "#3B82F6", textDecoration: "none", padding: "5px 0", borderBottom: `1px solid ${t.border}` }}>→ {c.name}</a>
+                ))}
               </div>
             </div>
           </div>
