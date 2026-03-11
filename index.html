@@ -9,15 +9,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { overflow-x: hidden; width: 100%; }
-    body { font-family: Calibri, sans-serif; background: #F8FAFC; }
+    html { overflow-x: hidden; max-width: 100%; }
+    body { font-family: Calibri, sans-serif; background: #F8FAFC; overflow-x: hidden; max-width: 100vw; }
     a:hover { opacity: 0.8; }
     button { font-family: Calibri, sans-serif; }
     button:hover { filter: brightness(0.95); }
 
     /* ── Header ── */
-    .app-header   { width: 100%; padding: 28px 32px 24px; transition: background 0.2s ease; }
-    .header-inner { width: 100%; max-width: 960px; margin: 0 auto; }
+    .app-header   { padding: 28px 32px 24px; transition: background 0.2s ease; }
+    .header-inner { max-width: 960px; margin: 0 auto; }
     .header-top   { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
     .site-title   { font-size: 26px; margin: 0; font-weight: 700; letter-spacing: -0.02em; }
     .dark-btn     { flex-shrink: 0; display: flex; align-items: center; gap: 6px; padding: 8px 16px; min-height: 44px; border-radius: 8px; font-size: 14px; font-weight: 600; white-space: nowrap; cursor: pointer; border: 1px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.08); color: white; }
@@ -30,7 +30,7 @@
     .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #22C55E, #3B82F6); transition: width 0.5s ease; }
 
     /* ── Body grid ── */
-    .body-grid  { max-width: 960px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
+    .body-grid  { max-width: 960px; width: 100%; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 220px 1fr; gap: 24px; overflow-x: hidden; }
     .sidebar    { position: sticky; top: 20px; align-self: start; }
     .main-col   { min-width: 0; }
 
@@ -38,10 +38,20 @@
     .sidebar-btn { width: 100%; text-align: left; border: none; cursor: pointer; padding: 12px 14px; border-radius: 10px; margin-bottom: 6px; transition: all 0.2s ease; display: block; }
 
     /* ── Sidebar mobile pill strip ── */
+    .step-strip  { 
+      flex-shrink: 0; 
+      overflow-x: auto; 
+      overflow-y: visible;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+      width: 100%;
+    }
+    .step-strip::-webkit-scrollbar { display: none; }
     .step-pill  { flex-shrink: 0; width: 110px; text-align: left; border: none; cursor: pointer; padding: 10px; border-radius: 10px; transition: all 0.2s ease; }
 
     /* ── Step hero card ── */
-    .step-hero   { border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; height: auto; overflow: hidden; width: 100%; max-width: 100%; box-sizing: border-box; }
+    .step-hero   { border-radius: 14px; padding: 20px 22px; margin-bottom: 14px; height: auto; overflow: visible; width: 100%; box-sizing: border-box; }
     .mark-btn    { width: 100%; padding: 13px; border-radius: 8px; border: none; cursor: pointer; font-size: 15px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,0.12); transition: all 0.2s ease; margin-top: 14px; }
 
     /* ── Tabs ── */
@@ -49,54 +59,36 @@
     .tab-btn  { flex: 1; min-height: 44px; padding: 10px 6px; border: none; cursor: pointer; border-radius: 7px; font-size: 13px; font-weight: 600; text-transform: capitalize; transition: all 0.2s ease; position: relative; }
 
     /* ── Content cards ── */
-    .card     { border-radius: 12px; padding: 20px 22px; }
-    .row-item { display: flex; gap: 12px; padding: 12px 14px; border-radius: 8px; }
+    .card     { border-radius: 12px; padding: 20px 22px; overflow: hidden; word-break: break-word; }
+    .row-item { display: flex; gap: 12px; padding: 12px 14px; border-radius: 8px; overflow: hidden; }
 
     /* ── Resource links ── */
-    .resource-link { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px 14px; border-radius: 8px; text-decoration: none; min-height: 48px; }
+    .resource-link { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px 14px; border-radius: 8px; text-decoration: none; min-height: 48px; width: 100%; max-width: 100%; overflow: hidden; }
 
     /* ── Nav buttons ── */
     .nav-btns { display: flex; gap: 10px; margin-top: 14px; }
     .nav-btn  { flex: 1; min-height: 48px; padding: 13px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
 
     /* ── Sidebar layout switching ── */
-    .step-strip      { display: none; }
-    .sidebar-list    { display: block; }
-    .community-mobile { display: none; }
+    .step-strip   { display: none; }
+    .sidebar-list { display: block; }
 
     /* ── Mobile overrides ── */
     @media (max-width: 768px) {
-      .step-strip   { display: flex; overflow-x: auto; gap: 8px; padding-bottom: 8px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-      .step-strip::-webkit-scrollbar { display: none; }
+      .step-strip   { display: flex; }
       .sidebar-list { display: none; }
-      .community-mobile { display: block; margin-top: 14px; }
       .app-header  { padding: 16px; }
       .site-title  { font-size: 20px; }
-      .body-grid   { grid-template-columns: 1fr; padding: 16px 12px; gap: 14px; }
-      .sidebar     { position: static; top: auto; }
-      .step-hero   { padding: 14px 16px; }
+      .body-grid   { grid-template-columns: 1fr; padding: 12px 12px; gap: 14px; width: 100%; }
+      .sidebar     { position: static; top: auto; width: 100%; }
+      .step-hero   { padding: 14px 16px; width: 100%; }
       .mark-btn    { font-size: 16px; padding: 15px; }
       .card        { padding: 14px 16px; }
-      .tab-btn     { font-size: 12px; padding: 10px 4px; }
+      .tab-btn     { font-size: 12px; padding: 10px 2px; }
       .nav-btn     { font-size: 15px; padding: 15px; min-height: 52px; }
       .dark-btn    { padding: 8px 12px; font-size: 13px; }
-      .resource-link { flex-direction: column; gap: 6px; }
-      .resource-link > div { justify-content: flex-start; }
-      .hours-row   { gap: 8px; padding: 10px 10px; }
-      .hours-label { font-size: 11px; }
-    }
-
-    /* ── Extra-small phones ── */
-    @media (max-width: 400px) {
-      .site-title  { font-size: 18px; }
-      .app-header  { padding: 12px; }
-      .body-grid   { padding: 12px 8px; gap: 10px; }
-      .tab-btn     { font-size: 11px; padding: 10px 2px; }
-      .step-hero h2 { font-size: 17px; }
-      .hours-row   { flex-wrap: wrap; }
-      .hours-label { flex: 1 1 100%; margin-bottom: 2px; }
-      .dark-btn    { padding: 8px 10px; font-size: 12px; }
-      .step-pill   { width: 100px; }
+      .main-col    { width: 100%; min-width: 0; overflow: hidden; }
+      .header-inner { width: 100%; }
     }
   </style>
 </head>
@@ -351,7 +343,7 @@
       const toggleComplete = (id) => setCompleted(prev => ({ ...prev, [id]: !prev[id] }));
 
       return (
-        <div style={{ minHeight: "100vh", width: "100%", overflowX: "hidden", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
+        <div style={{ minHeight: "100vh", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
 
           {/* ── Header ── */}
           <div className="app-header" style={{ background: t.header, color: "white" }}>
@@ -553,14 +545,6 @@
                   style={{ border: "none", background: activeStep === steps.length - 1 ? (dk ? "#334155" : "#E5E7EB") : step.accent, color: activeStep === steps.length - 1 ? t.label : "white", cursor: activeStep === steps.length - 1 ? "not-allowed" : "pointer" }}>
                   Next →
                 </button>
-              </div>
-
-              {/* Community links — mobile only */}
-              <div className="community-mobile card" style={{ background: t.card, boxShadow: t.cardShadow }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 10 }}>Community</div>
-                {[{ name: "r/learnprogramming", url: "https://www.reddit.com/r/learnprogramming/" }, { name: "Stack Overflow", url: "https://stackoverflow.com/" }, { name: "Anthropic Discord", url: "https://discord.gg/anthropic" }, { name: "Indie Hackers", url: "https://www.indiehackers.com/" }].map(c => (
-                  <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: "block", fontSize: 12, color: "#3B82F6", textDecoration: "none", padding: "5px 0", borderBottom: `1px solid ${t.border}` }}>→ {c.name}</a>
-                ))}
               </div>
             </div>
           </div>
