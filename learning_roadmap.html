@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning Roadmap – APIs, AI & Data</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #F8FAFC; font-family: Calibri, sans-serif; color: #1E293B; }
+    a:hover { opacity: 0.8; }
+    button:hover { filter: brightness(0.95); }
+    @media (max-width: 700px) {
+      .layout { grid-template-columns: 1fr !important; }
+      .sidebar { position: static !important; }
+      .sidebar-scroll { display: flex !important; flex-direction: row !important; overflow-x: auto !important; gap: 8px !important; padding-bottom: 8px !important; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .sidebar-scroll::-webkit-scrollbar { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const steps = [
+      {
+        id: 1, title: "Learn Basic Python", duration: "4–6 weeks", hoursPerDay: 1,
+        color: "#E8F4FD", accent: "#2196F3", icon: "🐍",
+        summary: "The foundation of everything. Python is readable, beginner-friendly, and powers AI and data work.",
+        firstWin: {
+          title: "This weekend: Print a list of names",
+          desc: "Write a Python script that reads a list of names from a file and prints 'Hello, [Name]!' for each one. Takes 30 minutes and teaches you variables, loops, and file reading all at once."
+        },
+        checkpoint: "You can write a Python script that reads a list from a file and prints personalised output. You can fix a broken script by reading its error message.",
+        resources: [
+          { name: "freeCodeCamp – Scientific Computing with Python", url: "https://www.freecodecamp.org/learn/scientific-computing-with-python/", type: "Course" },
+          { name: "Automate the Boring Stuff with Python", url: "https://automatetheboringstuff.com/", type: "Free Book" },
+          { name: "Python.org Beginner's Guide", url: "https://wiki.python.org/moin/BeginnersGuide", type: "Docs" },
+          { name: "Python Tutor – Visualise your code", url: "https://pythontutor.com/", type: "Tool" },
+        ],
+        troubleshooting: [
+          "Read the full error message — Python tells you exactly what went wrong and on which line",
+          "Copy the error into Stack Overflow — someone has had the same problem",
+          "Ask Claude to explain it — paste your code and the error message",
+          "Use Python Tutor to visualise your code running step by step",
+        ],
+        focus: "Variables, loops, functions, reading/writing files, basic error handling. Skip games and graphics for now."
+      },
+      {
+        id: 2, title: "How the Web & APIs Work", duration: "1–2 weeks", hoursPerDay: 1,
+        color: "#F0FDF4", accent: "#22C55E", icon: "🌐",
+        summary: "Your app will talk to payment systems, calendars, SMS providers and more. You need to understand how that communication works.",
+        firstWin: {
+          title: "This weekend: Get weather data with Python",
+          desc: "Use the free Open-Meteo API (no sign-up needed) to fetch today's weather and print it. You'll have made a real API call in under an hour."
+        },
+        checkpoint: "You can use Postman to send a request to a free API and understand the response. You can explain what JSON is to someone else.",
+        resources: [
+          { name: "MDN: How the Web Works", url: "https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/How_the_Web_works", type: "Guide" },
+          { name: "What is a REST API? – Red Hat", url: "https://www.redhat.com/en/topics/api/what-is-a-rest-api", type: "Article" },
+          { name: "Postman Learning Centre", url: "https://learning.postman.com/docs/getting-started/introduction/", type: "Tool" },
+          { name: "Open-Meteo – Free Weather API", url: "https://open-meteo.com/", type: "Practice API" },
+        ],
+        troubleshooting: [
+          "If a request fails, check the status code — 404 means not found, 401 means unauthorised",
+          "Use Postman before writing code — test the API manually first",
+          "JSON is just a structured text format — read it like a dictionary",
+          "The Requests library in Python makes API calls very simple",
+        ],
+        focus: "HTTP methods (GET, POST), JSON format, status codes, and what an endpoint is."
+      },
+      {
+        id: 3, title: "Call Your First Real API", duration: "1 week", hoursPerDay: 1,
+        color: "#FFF7ED", accent: "#F97316", icon: "🔌",
+        summary: "Pick something fun and write a script that fetches real data. This is a massive confidence milestone.",
+        firstWin: {
+          title: "This weekend: Build a trivia quiz in the terminal",
+          desc: "Use the Open Trivia Database API to fetch 10 random questions and build a simple quiz that runs in your terminal. You'll touch APIs, loops, and user input all at once."
+        },
+        checkpoint: "You've written a Python script that calls a real API, handles the response, and does something useful with the data — without following a tutorial step-by-step.",
+        resources: [
+          { name: "Open Trivia Database API", url: "https://opentdb.com/api_config.php", type: "Practice API" },
+          { name: "Open-Meteo Weather API", url: "https://open-meteo.com/", type: "Practice API" },
+          { name: "The Cat API", url: "https://thecatapi.com/", type: "Fun API" },
+          { name: "Claude API Quickstart", url: "https://docs.anthropic.com/en/docs/quickstart", type: "Docs" },
+        ],
+        troubleshooting: [
+          "Install the Requests library first: pip install requests",
+          "Print the raw response before trying to use it — understand the structure",
+          "API keys go in environment variables, never paste them directly in code",
+          "Rate limits mean you can only call the API a certain number of times — read the docs",
+        ],
+        focus: "Making HTTP requests in Python, parsing JSON responses, handling errors gracefully."
+      },
+      {
+        id: 4, title: "Explore Claude & AI", duration: "Ongoing", hoursPerDay: 1,
+        color: "#FDF4FF", accent: "#A855F7", icon: "🤖",
+        summary: "Once you're comfortable with basics, dive into Anthropic's own learning resources and start building AI-powered tools.",
+        firstWin: {
+          title: "This weekend: Build an AI summariser",
+          desc: "Use the Claude API to build a script that takes any text you paste in and returns a one-paragraph summary. You'll be calling an AI model with your own code."
+        },
+        checkpoint: "You can make a call to the Claude API from Python, pass it a prompt, and do something useful with the response — like summarising text or answering questions about a document.",
+        resources: [
+          { name: "Claude API Quickstart", url: "https://docs.anthropic.com/en/docs/quickstart", type: "Docs" },
+          { name: "Anthropic Prompt Engineering Tutorial", url: "https://github.com/anthropics/prompt-eng-interactive-tutorial", type: "Free Course" },
+          { name: "Claude Cookbooks", url: "https://github.com/anthropics/claude-cookbooks", type: "Examples" },
+          { name: "Claude Quickstarts", url: "https://github.com/anthropics/claude-quickstarts", type: "Templates" },
+          { name: "Anthropic Courses", url: "https://github.com/anthropics/courses", type: "Free Course" },
+        ],
+        troubleshooting: [
+          "Your API key is secret — store it as an environment variable, never in your code",
+          "Prompt quality matters enormously — be specific and give examples",
+          "If responses aren't what you expect, rewrite the prompt before debugging code",
+          "Start with claude-haiku — it's fast and cheap for experimenting",
+        ],
+        focus: "Prompt engineering, the Claude API, building simple AI-powered tools from scratch."
+      },
+      {
+        id: 5, title: "Work With Data", duration: "Parallel to Steps 3–4", hoursPerDay: 1,
+        color: "#FFF1F2", accent: "#F43F5E", icon: "📊",
+        summary: "Learn to load, explore, filter and visualise real datasets using Python's most important data library.",
+        firstWin: {
+          title: "This weekend: Explore a real dataset",
+          desc: "Download any CSV from Kaggle, load it with pandas, and answer 3 questions about it — like 'what's the average?' or 'which row has the highest value?' Takes an hour and teaches you more than a week of tutorials."
+        },
+        checkpoint: "You can load a CSV file, filter rows based on a condition, calculate summary statistics, and produce a basic chart — all from a Python script.",
+        resources: [
+          { name: "pandas Getting Started", url: "https://pandas.pydata.org/getting_started.html", type: "Docs" },
+          { name: "Kaggle Learn – free courses", url: "https://www.kaggle.com/learn", type: "Free Course" },
+          { name: "data.gov.au – Australian open data", url: "https://data.gov.au/", type: "Datasets" },
+          { name: "Our World in Data", url: "https://ourworldindata.org/", type: "Datasets" },
+          { name: "Matplotlib Quickstart", url: "https://matplotlib.org/stable/tutorials/introductory/quick_start.html", type: "Docs" },
+        ],
+        troubleshooting: [
+          "Install with: pip install pandas matplotlib",
+          "Always look at your data first: df.head() and df.info() before anything else",
+          "Messy real-world data is normal — cleaning it is half the skill",
+          "Kaggle has free competitions with prizes — great motivation to apply your skills",
+        ],
+        focus: "pandas for data manipulation, matplotlib for visualisation, working with real messy datasets."
+      }
+    ];
+
+    const TypeBadge = ({ type }) => {
+      const colors = {
+        "Course": { bg: "#EFF6FF", text: "#1D4ED8" },
+        "Free Course": { bg: "#F0FDF4", text: "#15803D" },
+        "Free Book": { bg: "#FEF9C3", text: "#92400E" },
+        "Docs": { bg: "#F5F3FF", text: "#6D28D9" },
+        "Tool": { bg: "#FFF7ED", text: "#C2410C" },
+        "Article": { bg: "#F0F9FF", text: "#0369A1" },
+        "Practice API": { bg: "#FDF2F8", text: "#9D174D" },
+        "Fun API": { bg: "#ECFDF5", text: "#065F46" },
+        "Templates": { bg: "#FFF1F2", text: "#BE123C" },
+        "Examples": { bg: "#F0FDFA", text: "#0F766E" },
+        "Datasets": { bg: "#FEF3C7", text: "#92400E" },
+        "Guide": { bg: "#EFF6FF", text: "#1E40AF" },
+      };
+      const c = colors[type] || { bg: "#F3F4F6", text: "#374151" };
+      return (
+        <span style={{ background: c.bg, color: c.text, fontSize: "10px", fontWeight: 700, letterSpacing: "0.05em", padding: "2px 8px", borderRadius: "20px", textTransform: "uppercase", whiteSpace: "nowrap" }}>{type}</span>
+      );
+    };
+
+    const CheckIcon = ({ done }) => (
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <circle cx="11" cy="11" r="11" fill={done ? "#22C55E" : "#E5E7EB"} />
+        {done && <path d="M6 11.5L9.5 15L16 8" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />}
+      </svg>
+    );
+
+    function App() {
+      const [activeStep, setActiveStep] = useState(0);
+      const [completed, setCompleted] = useState(() => {
+        try { return JSON.parse(localStorage.getItem("roadmap_completed") || "{}"); } catch { return {}; }
+      });
+      const [hoursPerWeek, setHoursPerWeek] = useState(() => {
+        const saved = parseInt(localStorage.getItem("roadmap_hours"), 10);
+        return isNaN(saved) ? 7 : saved;
+      });
+      const [notes, setNotes] = useState(() => {
+        try { return JSON.parse(localStorage.getItem("roadmap_notes") || "{}"); } catch { return {}; }
+      });
+      const [darkMode, setDarkMode] = useState(() => localStorage.getItem("roadmap_dark") === "true");
+      const [isMobile, setIsMobile] = useState(() => window.innerWidth <= 700);
+
+      useEffect(() => {
+        const handler = () => setIsMobile(window.innerWidth <= 700);
+        window.addEventListener("resize", handler);
+        return () => window.removeEventListener("resize", handler);
+      }, []);
+
+      useEffect(() => { localStorage.setItem("roadmap_completed", JSON.stringify(completed)); }, [completed]);
+      useEffect(() => { localStorage.setItem("roadmap_hours", hoursPerWeek); }, [hoursPerWeek]);
+      useEffect(() => { localStorage.setItem("roadmap_notes", JSON.stringify(notes)); }, [notes]);
+      useEffect(() => { localStorage.setItem("roadmap_dark", darkMode); }, [darkMode]);
+
+      const updateNote = (id, text) => setNotes(prev => ({ ...prev, [id]: text }));
+
+      const [activeTab, setActiveTab] = useState("overview");
+      const [animating, setAnimating] = useState(false);
+
+      const step = steps[activeStep];
+      const totalCompleted = Object.values(completed).filter(Boolean).length;
+      const progress = Math.round((totalCompleted / steps.length) * 100);
+
+      const dk = darkMode;
+      const t = {
+        pageBg:           dk ? "#0F172A" : "#F8FAFC",
+        header:           dk ? "#080D14" : "#1E293B",
+        card:             dk ? "#1E293B" : "white",
+        cardShadow:       dk ? "0 1px 3px rgba(0,0,0,0.4)" : "0 1px 3px rgba(0,0,0,0.06)",
+        border:           dk ? "#334155" : "#E5E7EB",
+        text:             dk ? "#E2E8F0" : "#1E293B",
+        textMuted:        dk ? "#CBD5E1" : "#374151",
+        textMuted2:       dk ? "#94A3B8" : "#4B5563",
+        label:            dk ? "#64748B" : "#9CA3AF",
+        tabInactive:      dk ? "#94A3B8" : "#6B7280",
+        rowBg:            dk ? "#0F172A" : "#F8FAFC",
+        checkpointBg:     dk ? "#052e16" : "#F0FDF4",
+        checkpointBorder: dk ? "#166534" : "#BBF7D0",
+        checkpointLabel:  dk ? "#4ade80" : "#15803D",
+        checkpointText:   dk ? "#86efac" : "#166534",
+        tipBg:            dk ? "#1c0a00" : "#FEF9C3",
+        tipBorder:        dk ? "#78350F" : "#FDE68A",
+        tipTitle:         dk ? "#fbbf24" : "#92400E",
+        tipText:          dk ? "#fef3c7" : "#78350F",
+        stepCardBg:       dk ? `${step.accent}18` : step.color,
+        sidebarBtn:       (s, active) => active ? (dk ? `${s.accent}18` : s.color) : (dk ? "#1E293B" : "white"),
+      };
+
+      const weeksForStep = (s) => {
+        if (s.duration === "Ongoing" || s.duration.includes("Parallel")) return null;
+        const match = s.duration.match(/(\d+)[–-](\d+)/);
+        if (!match) return null;
+        const avgDays = ((parseInt(match[1]) + parseInt(match[2])) / 2) * 7;
+        return Math.ceil(avgDays / hoursPerWeek);
+      };
+
+      const switchStep = (idx) => {
+        if (idx === activeStep) return;
+        setAnimating(true);
+        setTimeout(() => { setActiveStep(idx); setActiveTab("overview"); setAnimating(false); }, 180);
+      };
+
+      const toggleComplete = (id) => setCompleted(prev => ({ ...prev, [id]: !prev[id] }));
+
+      return (
+        <div style={{ minHeight: "100vh", background: t.pageBg, fontFamily: "Calibri, sans-serif", color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
+          {/* Header */}
+          <div style={{ background: t.header, color: "white", padding: isMobile ? "16px 16px 16px" : "28px 32px 24px", transition: "background 0.2s ease" }}>
+            <div style={{ maxWidth: 960, margin: "0 auto" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 6, fontFamily: "Calibri, sans-serif" }}>Learning Roadmap</div>
+                  <h1 style={{ margin: 0, fontSize: isMobile ? 20 : 26, fontWeight: 700, letterSpacing: "-0.02em" }}>APIs, AI &amp; Data</h1>
+                  <p style={{ margin: "6px 0 0", fontSize: 13, color: "#94A3B8", fontFamily: "Calibri, sans-serif" }}>From complete beginner to building real tools</p>
+                </div>
+                <div style={{ display: "flex", flexDirection: isMobile ? "row" : "column", gap: 10, alignItems: isMobile ? "center" : "flex-end", flexWrap: "wrap" }}>
+                  <button onClick={() => setDarkMode(d => !d)} style={{ display: "flex", alignItems: "center", gap: 7, padding: "7px 14px", borderRadius: 8, border: "1px solid rgba(255,255,255,0.18)", background: "rgba(255,255,255,0.08)", color: "white", cursor: "pointer", fontSize: 13, fontWeight: 600, fontFamily: "Calibri, sans-serif", transition: "background 0.2s ease", whiteSpace: "nowrap" }}>
+                    {dk ? "☀ Light" : "☾ Dark"}
+                  </button>
+                  <div style={{ background: "rgba(255,255,255,0.07)", borderRadius: 12, padding: isMobile ? "10px 14px" : "14px 18px" }}>
+                    <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 6, fontFamily: "Calibri, sans-serif" }}>Hours / week</div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <button onClick={() => setHoursPerWeek(h => Math.max(3, h - 1))} style={{ width: 28, height: 28, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.1)", color: "white", cursor: "pointer", fontSize: 16 }}>−</button>
+                      <span style={{ fontSize: 20, fontWeight: 700, minWidth: 28, textAlign: "center" }}>{hoursPerWeek}</span>
+                      <button onClick={() => setHoursPerWeek(h => Math.min(35, h + 1))} style={{ width: 28, height: 28, borderRadius: "50%", border: "1px solid rgba(255,255,255,0.2)", background: "rgba(255,255,255,0.1)", color: "white", cursor: "pointer", fontSize: 16 }}>+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style={{ marginTop: 24 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+                  <span style={{ fontSize: 12, color: "#94A3B8", fontFamily: "Calibri, sans-serif" }}>{totalCompleted} of {steps.length} steps completed</span>
+                  <span style={{ fontSize: 12, color: "#94A3B8", fontFamily: "Calibri, sans-serif" }}>{progress}%</span>
+                </div>
+                <div style={{ height: 6, background: "rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: "100%", borderRadius: 3, background: "linear-gradient(90deg, #22C55E, #3B82F6)", width: `${progress}%`, transition: "width 0.5s ease" }} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="layout" style={{ maxWidth: 960, margin: "0 auto", padding: isMobile ? "16px 12px" : "28px 24px", display: "grid", gridTemplateColumns: "220px 1fr", gap: isMobile ? 16 : 24 }}>
+            {/* Sidebar */}
+            <div className="sidebar" style={{ position: "sticky", top: 20, alignSelf: "start" }}>
+              <div className="sidebar-scroll">
+                {steps.map((s, i) => {
+                  const done = completed[s.id];
+                  const weeks = weeksForStep(s);
+                  const isActive = i === activeStep;
+                  return isMobile ? (
+                    <button key={s.id} onClick={() => switchStep(i)} style={{ flexShrink: 0, width: 130, textAlign: "left", border: "none", cursor: "pointer", padding: "10px 12px", borderRadius: 10, background: t.sidebarBtn(s, isActive), borderTop: isActive ? `3px solid ${s.accent}` : "3px solid transparent", borderLeft: "none", boxShadow: isActive ? `0 2px 12px ${s.accent}22` : t.cardShadow, transition: "all 0.2s ease", fontFamily: "Calibri, sans-serif" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 3 }}>
+                        <CheckIcon done={done} />
+                        <span style={{ fontSize: 12, fontWeight: 700, color: isActive ? s.accent : t.textMuted }}>{s.icon} {s.id}</span>
+                      </div>
+                      <div style={{ fontSize: 11, color: t.textMuted, fontWeight: 600, marginLeft: 28, lineHeight: 1.3 }}>{s.title}</div>
+                    </button>
+                  ) : (
+                    <button key={s.id} onClick={() => switchStep(i)} style={{ width: "100%", textAlign: "left", border: "none", cursor: "pointer", padding: "12px 14px", borderRadius: 10, marginBottom: 6, background: t.sidebarBtn(s, isActive), borderLeft: isActive ? `3px solid ${s.accent}` : "3px solid transparent", boxShadow: isActive ? `0 2px 12px ${s.accent}22` : t.cardShadow, transition: "all 0.2s ease", fontFamily: "Calibri, sans-serif" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 3 }}>
+                        <CheckIcon done={done} />
+                        <span style={{ fontSize: 13, fontWeight: 700, color: isActive ? s.accent : t.textMuted }}>{s.icon} Step {s.id}</span>
+                      </div>
+                      <div style={{ fontSize: 12, color: t.textMuted, fontWeight: 600, marginLeft: 30, lineHeight: 1.3 }}>{s.title}</div>
+                      <div style={{ fontSize: 11, color: t.label, marginLeft: 30, marginTop: 2, fontFamily: "Calibri, sans-serif" }}>{weeks ? `~${weeks} weeks at ${hoursPerWeek}h/wk` : s.duration}</div>
+                    </button>
+                  );
+                })}
+              </div>
+              {!isMobile && (
+                <div style={{ marginTop: 16, padding: 14, background: t.card, borderRadius: 10, boxShadow: t.cardShadow }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 10, fontFamily: "Calibri, sans-serif" }}>Community</div>
+                  {[{ name: "r/learnprogramming", url: "https://www.reddit.com/r/learnprogramming/" }, { name: "Stack Overflow", url: "https://stackoverflow.com/" }, { name: "Anthropic Discord", url: "https://discord.gg/anthropic" }, { name: "Indie Hackers", url: "https://www.indiehackers.com/" }].map(c => (
+                    <a key={c.name} href={c.url} target="_blank" rel="noopener noreferrer" style={{ display: "block", fontSize: 12, color: "#3B82F6", textDecoration: "none", padding: "4px 0", borderBottom: `1px solid ${t.border}`, fontFamily: "Calibri, sans-serif" }}>→ {c.name}</a>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Main */}
+            <div style={{ opacity: animating ? 0 : 1, transform: animating ? "translateY(8px)" : "translateY(0)", transition: "opacity 0.18s ease, transform 0.18s ease" }}>
+              <div style={{ background: t.stepCardBg, borderRadius: 14, padding: isMobile ? "16px" : "24px 28px", marginBottom: 16, borderLeft: `5px solid ${step.accent}`, boxShadow: `0 4px 20px ${step.accent}18` }}>
+                <div style={{ display: "flex", alignItems: "flex-start", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", gap: 16 }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+                      <span style={{ fontSize: 28 }}>{step.icon}</span>
+                      <div>
+                        <div style={{ fontSize: 11, color: step.accent, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", fontFamily: "Calibri, sans-serif" }}>Step {step.id} · {weeksForStep(step) ? `~${weeksForStep(step)} weeks` : step.duration}</div>
+                        <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, letterSpacing: "-0.02em", color: t.text }}>{step.title}</h2>
+                      </div>
+                    </div>
+                    <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: t.textMuted, fontFamily: "Calibri, sans-serif" }}>{step.summary}</p>
+                  </div>
+                  <button onClick={() => toggleComplete(step.id)} style={{ padding: "10px 18px", borderRadius: 8, border: "none", cursor: "pointer", background: completed[step.id] ? "#22C55E" : t.card, color: completed[step.id] ? "white" : t.textMuted, fontWeight: 700, fontSize: 13, boxShadow: "0 2px 8px rgba(0,0,0,0.15)", transition: "all 0.2s ease", fontFamily: "Calibri, sans-serif", whiteSpace: "nowrap", alignSelf: isMobile ? "stretch" : "flex-start", textAlign: "center" }}>
+                    {completed[step.id] ? "✓ Completed" : "Mark complete"}
+                  </button>
+                </div>
+              </div>
+
+              <div style={{ display: "flex", gap: 4, marginBottom: 16, background: t.card, padding: 4, borderRadius: 10, boxShadow: t.cardShadow }}>
+                {["overview", "resources", "troubleshooting", "notes"].map(tab => (
+                  <button key={tab} onClick={() => setActiveTab(tab)} style={{ flex: 1, padding: isMobile ? "8px 4px" : "9px 12px", border: "none", cursor: "pointer", borderRadius: 7, background: activeTab === tab ? step.accent : "transparent", color: activeTab === tab ? "white" : t.tabInactive, fontWeight: 600, fontSize: isMobile ? 11 : 13, textTransform: "capitalize", transition: "all 0.2s ease", fontFamily: "Calibri, sans-serif", position: "relative" }}>
+                    {isMobile && tab === "troubleshooting" ? "Tips" : tab}
+                    {tab === "notes" && notes[step.id] && <span style={{ position: "absolute", top: 6, right: 6, width: 6, height: 6, borderRadius: "50%", background: step.accent, opacity: activeTab === "notes" ? 0 : 1 }} />}
+                  </button>
+                ))}
+              </div>
+
+              {activeTab === "overview" && (
+                <div style={{ display: "grid", gap: 14 }}>
+                  <div style={{ background: t.card, borderRadius: 12, padding: "20px 22px", boxShadow: t.cardShadow, borderLeft: `4px solid ${step.accent}` }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: step.accent, marginBottom: 8, fontFamily: "Calibri, sans-serif" }}>🎯 First Win</div>
+                    <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 6, color: t.text }}>{step.firstWin.title}</div>
+                    <p style={{ margin: 0, fontSize: 14, color: t.textMuted2, lineHeight: 1.6, fontFamily: "Calibri, sans-serif" }}>{step.firstWin.desc}</p>
+                  </div>
+                  <div style={{ background: t.card, borderRadius: 12, padding: "20px 22px", boxShadow: t.cardShadow }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 8, fontFamily: "Calibri, sans-serif" }}>📌 What to focus on</div>
+                    <p style={{ margin: 0, fontSize: 14, color: t.textMuted, lineHeight: 1.6, fontFamily: "Calibri, sans-serif" }}>{step.focus}</p>
+                  </div>
+                  <div style={{ background: t.checkpointBg, borderRadius: 12, padding: "20px 22px", boxShadow: t.cardShadow, border: `1px solid ${t.checkpointBorder}` }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.checkpointLabel, marginBottom: 8, fontFamily: "Calibri, sans-serif" }}>✓ Ready to move on when...</div>
+                    <p style={{ margin: 0, fontSize: 14, color: t.checkpointText, lineHeight: 1.6, fontFamily: "Calibri, sans-serif" }}>{step.checkpoint}</p>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "resources" && (
+                <div style={{ background: t.card, borderRadius: 12, padding: "20px 22px", boxShadow: t.cardShadow }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 14, fontFamily: "Calibri, sans-serif" }}>Learning Resources</div>
+                  <div style={{ display: "grid", gap: 10 }}>
+                    {step.resources.map(r => (
+                      <a key={r.name} href={r.url} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "12px 14px", borderRadius: 8, background: t.rowBg, border: `1px solid ${t.border}`, textDecoration: "none", color: "inherit", transition: "all 0.15s ease" }}>
+                        <span style={{ fontSize: 14, fontWeight: 600, color: t.text, fontFamily: "Calibri, sans-serif" }}>{r.name}</span>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                          <TypeBadge type={r.type} />
+                          <span style={{ color: step.accent, fontSize: 16 }}>→</span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "troubleshooting" && (
+                <div style={{ background: t.card, borderRadius: 12, padding: "20px 22px", boxShadow: t.cardShadow }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 14, fontFamily: "Calibri, sans-serif" }}>When you get stuck</div>
+                  <div style={{ display: "grid", gap: 10 }}>
+                    {step.troubleshooting.map((tip, i) => (
+                      <div key={i} style={{ display: "flex", gap: 14, padding: "12px 14px", background: t.rowBg, borderRadius: 8, border: `1px solid ${t.border}` }}>
+                        <span style={{ width: 22, height: 22, borderRadius: "50%", flexShrink: 0, background: step.accent, color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, marginTop: 1, fontFamily: "Calibri, sans-serif" }}>{i + 1}</span>
+                        <span style={{ fontSize: 14, color: t.textMuted, lineHeight: 1.6, fontFamily: "Calibri, sans-serif" }}>{tip}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ marginTop: 16, padding: 14, background: t.tipBg, borderRadius: 8, border: `1px solid ${t.tipBorder}` }}>
+                    <div style={{ fontSize: 12, fontWeight: 700, color: t.tipTitle, marginBottom: 6, fontFamily: "Calibri, sans-serif" }}>🔍 General rule</div>
+                    <p style={{ margin: 0, fontSize: 13, color: t.tipText, lineHeight: 1.5, fontFamily: "Calibri, sans-serif" }}>Read the error → Google the exact message → Ask Claude → Take a break → Ask the community. Most bugs are solved at step 1 or 2.</p>
+                  </div>
+                </div>
+              )}
+
+              {activeTab === "notes" && (
+                <div style={{ background: t.card, borderRadius: 12, padding: "20px 22px", boxShadow: t.cardShadow }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: t.label, marginBottom: 14, fontFamily: "Calibri, sans-serif" }}>My Notes — {step.title}</div>
+                  <textarea
+                    value={notes[step.id] || ""}
+                    onChange={e => updateNote(step.id, e.target.value)}
+                    placeholder="Write your thoughts, questions, things you learned, or anything you want to remember about this step..."
+                    style={{ width: "100%", minHeight: 220, padding: "14px 16px", borderRadius: 8, border: `1px solid ${t.border}`, fontSize: 14, lineHeight: 1.7, fontFamily: "Calibri, sans-serif", color: t.textMuted, background: t.rowBg, resize: "vertical", outline: "none", boxSizing: "border-box", transition: "border-color 0.15s ease" }}
+                    onFocus={e => e.target.style.borderColor = step.accent}
+                    onBlur={e => e.target.style.borderColor = t.border}
+                  />
+                  {notes[step.id] && (
+                    <div style={{ marginTop: 8, fontSize: 12, color: t.label, fontFamily: "Calibri, sans-serif", textAlign: "right" }}>
+                      {notes[step.id].length} characters · saved automatically
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
+                <button onClick={() => switchStep(Math.max(0, activeStep - 1))} disabled={activeStep === 0} style={{ padding: "10px 20px", borderRadius: 8, border: `1px solid ${t.border}`, background: t.card, cursor: activeStep === 0 ? "not-allowed" : "pointer", color: activeStep === 0 ? t.label : t.textMuted, fontWeight: 600, fontSize: 13, fontFamily: "Calibri, sans-serif" }}>← Previous</button>
+                <button onClick={() => switchStep(Math.min(steps.length - 1, activeStep + 1))} disabled={activeStep === steps.length - 1} style={{ padding: "10px 20px", borderRadius: 8, border: "none", background: activeStep === steps.length - 1 ? (dk ? "#334155" : "#E5E7EB") : step.accent, cursor: activeStep === steps.length - 1 ? "not-allowed" : "pointer", color: activeStep === steps.length - 1 ? t.label : "white", fontWeight: 600, fontSize: 13, fontFamily: "Calibri, sans-serif" }}>Next →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
