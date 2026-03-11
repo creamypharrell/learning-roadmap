@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Learning Roadmap – APIs, AI & Data</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { overflow-x: hidden; max-width: 100%; }
-    body { font-family: Calibri, sans-serif; background: #F8FAFC; overflow-x: hidden; max-width: 100vw; }
+    html, body { overflow-x: hidden; max-width: 100%; }
+    body { font-family: Calibri, sans-serif; background: #F8FAFC; }
     a:hover { opacity: 0.8; }
     button { font-family: Calibri, sans-serif; }
     button:hover { filter: brightness(0.95); }
@@ -30,7 +30,7 @@
     .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #22C55E, #3B82F6); transition: width 0.5s ease; }
 
     /* ── Body grid ── */
-    .body-grid  { max-width: 960px; width: 100%; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 220px 1fr; gap: 24px; overflow-x: hidden; }
+    .body-grid  { max-width: 960px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
     .sidebar    { position: sticky; top: 20px; align-self: start; }
     .main-col   { min-width: 0; }
 
@@ -38,16 +38,6 @@
     .sidebar-btn { width: 100%; text-align: left; border: none; cursor: pointer; padding: 12px 14px; border-radius: 10px; margin-bottom: 6px; transition: all 0.2s ease; display: block; }
 
     /* ── Sidebar mobile pill strip ── */
-    .step-strip  { 
-      flex-shrink: 0; 
-      overflow-x: auto; 
-      overflow-y: visible;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 4px;
-      width: 100%;
-    }
-    .step-strip::-webkit-scrollbar { display: none; }
     .step-pill  { flex-shrink: 0; width: 110px; text-align: left; border: none; cursor: pointer; padding: 10px; border-radius: 10px; transition: all 0.2s ease; }
 
     /* ── Step hero card ── */
@@ -59,11 +49,11 @@
     .tab-btn  { flex: 1; min-height: 44px; padding: 10px 6px; border: none; cursor: pointer; border-radius: 7px; font-size: 13px; font-weight: 600; text-transform: capitalize; transition: all 0.2s ease; position: relative; }
 
     /* ── Content cards ── */
-    .card     { border-radius: 12px; padding: 20px 22px; overflow: hidden; word-break: break-word; }
-    .row-item { display: flex; gap: 12px; padding: 12px 14px; border-radius: 8px; overflow: hidden; }
+    .card     { border-radius: 12px; padding: 20px 22px; }
+    .row-item { display: flex; gap: 12px; padding: 12px 14px; border-radius: 8px; }
 
     /* ── Resource links ── */
-    .resource-link { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px 14px; border-radius: 8px; text-decoration: none; min-height: 48px; width: 100%; max-width: 100%; overflow: hidden; }
+    .resource-link { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding: 12px 14px; border-radius: 8px; text-decoration: none; min-height: 48px; }
 
     /* ── Nav buttons ── */
     .nav-btns { display: flex; gap: 10px; margin-top: 14px; }
@@ -75,24 +65,39 @@
 
     /* ── Mobile overrides ── */
     @media (max-width: 768px) {
-      .step-strip   { display: flex; }
+      .step-strip   { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 8px; }
+      .step-strip::-webkit-scrollbar { display: none; }
       .sidebar-list { display: none; }
       .app-header  { padding: 16px; }
       .site-title  { font-size: 20px; }
-      .body-grid   { grid-template-columns: 1fr; padding: 12px 12px; gap: 14px; width: 100%; }
-      .sidebar     { position: static; top: auto; width: 100%; }
-      .step-hero   { padding: 14px 16px; width: 100%; }
+      .body-grid   { 
+        grid-template-columns: 1fr !important; 
+        padding: 16px 12px; 
+        gap: 14px; 
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+      }
+      .sidebar     { position: static; top: auto; width: 100%; overflow-x: hidden; }
+      .step-hero   { padding: 14px 16px; overflow: hidden; }
       .mark-btn    { font-size: 16px; padding: 15px; }
-      .card        { padding: 14px 16px; }
-      .tab-btn     { font-size: 12px; padding: 10px 2px; }
+      .card        { padding: 14px 16px; overflow: hidden; word-break: break-word; }
+      .tab-btn     { font-size: 12px; padding: 10px 2px; min-width: 0; overflow: hidden; }
       .nav-btn     { font-size: 15px; padding: 15px; min-height: 52px; }
       .dark-btn    { padding: 8px 12px; font-size: 13px; }
-      .main-col    { width: 100%; min-width: 0; overflow: hidden; }
-      .header-inner { width: 100%; }
+      .main-col    { overflow-x: hidden !important; max-width: 100% !important; }
+      * { max-width: 100%; box-sizing: border-box; }
     }
   </style>
 </head>
 <body>
+  <style>
+    /* Safari iPhone hard reset */
+    html { height: -webkit-fill-available; }
+    body { min-height: 100vh; min-height: -webkit-fill-available; overflow-x: hidden !important; }
+    #root { overflow-x: hidden !important; width: 100vw; max-width: 100%; }
+  </style>
   <div id="root"></div>
   <script type="text/babel">
     const { useState, useEffect } = React;
@@ -343,7 +348,7 @@
       const toggleComplete = (id) => setCompleted(prev => ({ ...prev, [id]: !prev[id] }));
 
       return (
-        <div style={{ minHeight: "100vh", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
+        <div style={{ minHeight: "100vh", width: "100%", maxWidth: "100%", overflowX: "hidden", background: t.pageBg, color: t.text, transition: "background 0.2s ease, color 0.2s ease" }}>
 
           {/* ── Header ── */}
           <div className="app-header" style={{ background: t.header, color: "white" }}>
