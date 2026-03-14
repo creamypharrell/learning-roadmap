@@ -59,6 +59,11 @@
     .nav-btns { display: flex; gap: 10px; margin-top: 14px; }
     .nav-btn  { flex: 1; min-height: 48px; padding: 13px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
 
+    /* ── Width control (desktop only) ── */
+    .width-controls { display: flex; align-items: center; gap: 6px; }
+    .width-label    { font-size: 11px; color: #94A3B8; text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+    .width-tag      { font-size: 13px; font-weight: 700; color: white; min-width: 52px; text-align: center; }
+
     /* ── Sidebar layout switching ── */
     .step-strip   { display: none; }
     .sidebar-list { display: block; }
@@ -68,6 +73,7 @@
       .step-strip   { display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 8px; }
       .step-strip::-webkit-scrollbar { display: none; }
       .sidebar-list { display: none; }
+      .width-controls { display: none; }
       .app-header  { padding: 16px; }
       .site-title  { font-size: 20px; }
       .body-grid   { 
@@ -291,11 +297,20 @@
       const [darkMode, setDarkMode] = useState(() => {
         try { return localStorage.getItem("roadmap_dark") === "true"; } catch { return false; }
       });
+      const WIDTH_STEPS = [720, 960, 1200];
+      const WIDTH_LABELS = ["Narrow", "Normal", "Wide"];
+      const [contentWidth, setContentWidth] = useState(() => {
+        try { const s = parseInt(localStorage.getItem("roadmap_width"), 10); return WIDTH_STEPS.includes(s) ? s : 960; } catch { return 960; }
+      });
 
       useEffect(() => { localStorage.setItem("roadmap_completed", JSON.stringify(completed)); }, [completed]);
       useEffect(() => { localStorage.setItem("roadmap_hours", hoursPerWeek); }, [hoursPerWeek]);
       useEffect(() => { localStorage.setItem("roadmap_notes", JSON.stringify(notes)); }, [notes]);
       useEffect(() => { localStorage.setItem("roadmap_dark", darkMode); }, [darkMode]);
+      useEffect(() => { localStorage.setItem("roadmap_width", contentWidth); }, [contentWidth]);
+
+      const widthIdx = WIDTH_STEPS.indexOf(contentWidth);
+      const cycleWidth = (dir) => setContentWidth(WIDTH_STEPS[Math.max(0, Math.min(WIDTH_STEPS.length - 1, widthIdx + dir))]);
 
       const updateNote = (id, text) => setNotes(prev => ({ ...prev, [id]: text }));
 
@@ -352,16 +367,24 @@
 
           {/* ── Header ── */}
           <div className="app-header" style={{ background: t.header, color: "white" }}>
-            <div className="header-inner">
+            <div className="header-inner" style={{ maxWidth: contentWidth }}>
               <div className="header-top">
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", color: "#94A3B8", marginBottom: 4 }}>Learning Roadmap</div>
                   <h1 className="site-title">APIs, AI &amp; Data</h1>
                   <p style={{ marginTop: 4, fontSize: 13, color: "#94A3B8" }}>From complete beginner to building real tools</p>
                 </div>
-                <button className="dark-btn" onClick={() => setDarkMode(d => !d)}>
-                  {dk ? "☀ Light" : "☾ Dark"}
-                </button>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <div className="width-controls">
+                    <span className="width-label">Width</span>
+                    <button className="hours-btn" onClick={() => cycleWidth(-1)} disabled={widthIdx === 0} style={{ opacity: widthIdx === 0 ? 0.35 : 1 }}>−</button>
+                    <span className="width-tag">{WIDTH_LABELS[widthIdx]}</span>
+                    <button className="hours-btn" onClick={() => cycleWidth(1)} disabled={widthIdx === WIDTH_STEPS.length - 1} style={{ opacity: widthIdx === WIDTH_STEPS.length - 1 ? 0.35 : 1 }}>+</button>
+                  </div>
+                  <button className="dark-btn" onClick={() => setDarkMode(d => !d)}>
+                    {dk ? "☀ Light" : "☾ Dark"}
+                  </button>
+                </div>
               </div>
 
               <div className="hours-row">
@@ -382,7 +405,7 @@
           </div>
 
           {/* ── Body grid ── */}
-          <div className="body-grid" style={{ background: t.pageBg }}>
+          <div className="body-grid" style={{ background: t.pageBg, maxWidth: contentWidth }}>
 
             {/* ── Sidebar ── */}
             <div className="sidebar">
